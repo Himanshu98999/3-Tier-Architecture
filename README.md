@@ -1,4 +1,4 @@
 # 3 Tier Architecture
-HTTPS LB
-Applicatoin server 
+HTTPS LB, 
+Applicatoin server, 
 Database
