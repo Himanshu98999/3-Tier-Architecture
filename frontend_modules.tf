@@ -9,7 +9,6 @@ module "mig_template" {
     scopes = ["cloud-platform"]
   }
   name_prefix    = "shared-vpc-mig"
-  startup_script = data.template_file.group-startup-script.rendered
   tags           = ["allow-shared-vpc-mig"]
 }
 
