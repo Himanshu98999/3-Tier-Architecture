@@ -32,3 +32,9 @@ variable "enable_apis" {
   description = "Whether or not to enable underlying apis in this solution. ."
   default     = true
 }
+
+varible "host_project" {
+  type        = string
+  description = "the project where we are staring with"
+  default     = " project_id"
+}
