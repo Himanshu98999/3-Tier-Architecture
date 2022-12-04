@@ -4,7 +4,7 @@ module "gce-lb-http" {
 
   project           = "my-project-id"
   name              = "group-http-lb"
-  target_tags       = [module.mig1.target_tags, module.mig2.target_tags]
+  target_tags       = [module.mig.target_tags]
   backends = {
     default = {
       description                     = null
@@ -40,7 +40,7 @@ module "gce-lb-http" {
       groups = [
         {
           # Each node pool instance group should be added to the backend.
-          group                        = var.backend
+          group                        = module.mig.name
           balancing_mode               = null
           capacity_scaler              = null
           description                  = null
