@@ -1,4 +1,4 @@
-module "mig_template" {
+module "mig2_template" {
   source             = "terraform-google-modules/vm/google//modules/instance_template"
   version            = "~> 7.9"
   network            = google_compute_network.default.self_link
