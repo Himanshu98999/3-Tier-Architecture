@@ -1,1 +1,4 @@
-# Architecture
+# 3 Tier Architecture
+HTTPS LB
+Applicatoin server 
+Database
