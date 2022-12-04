@@ -1,5 +1,5 @@
 module "mig2_template" {
-  source             = "terraform-google-modules/vm/google//modules/instance_template"
+  source             = "terraform-google-modules/vm/google/modules/instance_template"
   version            = "~> 7.9"
   network            = google_compute_network.default.self_link
   subnetwork         = var.subnetwork
@@ -9,7 +9,6 @@ module "mig2_template" {
     scopes = ["cloud-platform"]
   }
   name_prefix    = "shared-vpc-mig"
-  startup_script = data.template_file.group-startup-script.rendered
   tags           = ["allow-shared-vpc-mig"]
 }
 
