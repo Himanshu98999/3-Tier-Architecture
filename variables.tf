@@ -33,7 +33,7 @@ variable "enable_apis" {
   default     = true
 }
 
-varible "host_project" {
+variable "host_project" {
   type        = string
   description = "the project where we are staring with"
   default     = " project_id"
