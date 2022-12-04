@@ -131,25 +131,6 @@ resource "google_sql_user" "main" {
   instance = google_sql_database_instance.main.name
 }
 
-# Looked at using the module, but there doesn't seem to be a huge win there.
-# Handle redis instance
-resource "google_redis_instance" "main" {
-  authorized_network      = module.network-safer-mysql-simple.network_name
-  connect_mode            = "DIRECT_PEERING"
-  location_id             = var.zone
-  memory_size_gb          = 1
-  name                    = "${var.deployment_name}-cache"
-  project                 = var.project_id
-  redis_version           = "REDIS_6_X"
-  region                  = var.region
-  reserved_ip_range       = "10.137.125.88/29"
-  tier                    = "BASIC"
-  transit_encryption_mode = "DISABLED"
-  depends_on              = [module.project-services]
-  labels                  = var.labels
-}
-
-
 
 module "secret-manager" {
   source     = "GoogleCloudPlatform/secret-manager/google"
@@ -162,12 +143,7 @@ module "secret-manager" {
     todo_pass = var.labels
   }
   secrets = [
-    {
-      name                  = "redishost"
-      automatic_replication = true
-      secret_data           = google_redis_instance.main.host
-    },
-    {
+     {
       name                  = "sqlhost"
       automatic_replication = true
       secret_data           = google_sql_database_instance.main.ip_address.0.ip_address
@@ -197,16 +173,7 @@ resource "google_cloud_run_service" "api" {
       service_account_name = google_service_account.runsa.email
       containers {
         image = local.api_image
-        env {
-          name = "REDISHOST"
-          value_from {
-            secret_key_ref {
-              name = "redishost"
-              key  = "latest"
-            }
-          }
-        }
-        env {
+       env {
           name = "todo_host"
           value_from {
             secret_key_ref {
@@ -240,12 +207,7 @@ resource "google_cloud_run_service" "api" {
           value = "todo"
         }
 
-        env {
-          name  = "REDISPORT"
-          value = "6379"
         }
-
-      }
     }
 
     metadata {
